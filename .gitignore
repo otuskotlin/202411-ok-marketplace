@@ -9,3 +9,5 @@
 /.idea/
 /.gigaide/
 /kotlin-js-store/
+
+*.hprof
