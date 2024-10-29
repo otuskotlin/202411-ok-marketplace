@@ -9,12 +9,9 @@ kotlin {
         commonMain {
             dependencies {
                 implementation(kotlin("stdlib-jdk8"))
-                implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.5.0")
+                api(libs.kotlinx.datetime)
                 implementation(libs.kotlinx.serialization.core)
                 implementation(libs.kotlinx.serialization.json)
-
-                // transport models
-                implementation(project(":ok-marketplace-common"))
             }
         }
         commonTest {

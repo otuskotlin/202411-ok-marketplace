@@ -3,6 +3,8 @@ import ru.otus.otuskotlin.marketplace.api.v1.models.*
 import ru.otus.otuskotlin.marketplace.common.MkplContext
 import ru.otus.otuskotlin.marketplace.common.models.*
 import ru.otus.otuskotlin.marketplace.common.stubs.MkplStubs
+import ru.otus.otuskotlin.marketplace.mappers.v1.fromTransport
+import ru.otus.otuskotlin.marketplace.mappers.v1.toTransportAd
 import kotlin.test.assertEquals
 
 class MapperTest {
@@ -54,6 +56,7 @@ class MapperTest {
         )
 
         val req = context.toTransportAd() as AdCreateResponse
+//        val req = context.toTransportAd() as AdCreateResponse
 
         assertEquals("title", req.ad?.title)
         assertEquals("desc", req.ad?.description)
