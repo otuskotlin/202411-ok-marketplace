@@ -1,6 +1,5 @@
 plugins {
     id("build-kmp")
-    alias(libs.plugins.kotlinx.serialization)
 }
 
 kotlin {
@@ -9,17 +8,18 @@ kotlin {
         commonMain {
             dependencies {
                 implementation(kotlin("stdlib-jdk8"))
-                api(libs.kotlinx.datetime)
-                implementation(libs.kotlinx.serialization.core)
-                implementation(libs.kotlinx.serialization.json)
-                api("ru.otus.otuskotlin.marketplace.libs:ok-marketplace-lib-logging-common")
+
+                // transport models
+                implementation(project(":ok-marketplace-common"))
+                implementation(project(":ok-marketplace-api-log1"))
             }
         }
         commonTest {
             dependencies {
                 implementation(kotlin("test-common"))
                 implementation(kotlin("test-annotations-common"))
-                implementation(project(":ok-marketplace-api-v2-kmp"))
+
+                implementation(libs.coroutines.core)
             }
         }
 
