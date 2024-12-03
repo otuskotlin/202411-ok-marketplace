@@ -5,4 +5,5 @@ build/
 !**/src/test/**/build/
 
 /.idea/
+/.gigaide/
 /kotlin-js-store/
