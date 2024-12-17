@@ -1,18 +1,9 @@
 plugins {
-    kotlin("jvm") version "2.1.0"
-}
-
-group = "com.otus.otuskotlin.marketplace"
-version = "0.0.1"
-
-repositories {
-    mavenCentral()
+    kotlin("jvm")
 }
 
 dependencies {
-    testImplementation(kotlin("test"))
-}
+    implementation(kotlin("stdlib"))
 
-tasks.test {
-    useJUnitPlatform()
+    testImplementation(kotlin("test"))
 }
