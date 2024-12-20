@@ -1,0 +1,6 @@
+FROM --platform=linux/amd64 ubuntu:22.04
+COPY ok-marketplace-app-ktor.kexe /app/
+COPY application.yaml /app/
+EXPOSE 8080
+WORKDIR /app
+ENTRYPOINT ["/app/ok-marketplace-app-ktor.kexe", "-config=./application.yaml"]
