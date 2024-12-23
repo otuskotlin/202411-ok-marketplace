@@ -1,18 +1,13 @@
 plugins {
-    kotlin("jvm") version "2.1.0"
+    kotlin("jvm")
 }
 
-group = "com.otus.otuskotlin.marketplace"
-version = "0.0.1"
-
-repositories {
-    mavenCentral()
-}
+val coroutinesVersion: String by project
+val jUnitJupiterVersion: String by project
 
 dependencies {
-    testImplementation(kotlin("test"))
-}
+    implementation(kotlin("stdlib"))
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion")
 
-tasks.test {
-    useJUnitPlatform()
+    testImplementation(kotlin("test-junit"))
 }
