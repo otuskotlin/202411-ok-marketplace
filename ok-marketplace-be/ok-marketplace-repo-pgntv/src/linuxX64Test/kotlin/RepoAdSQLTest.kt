@@ -3,7 +3,6 @@ package ru.otus.otuskotlin.marketplace.backend.repo.postgresql
 import ru.otus.otuskotlin.marketplace.backend.repo.tests.*
 import ru.otus.otuskotlin.marketplace.common.repo.IRepoAd
 import ru.otus.otuskotlin.marketplace.repo.common.AdRepoInitialized
-import ru.otus.otuskotlin.marketplace.repo.common.IRepoAdInitializable
 import kotlin.test.AfterTest
 
 private fun IRepoAd.clear() {
@@ -12,9 +11,9 @@ private fun IRepoAd.clear() {
 }
 
 class RepoAdSQLCreateTest : RepoAdCreateTest() {
-    override val repo: IRepoAdInitializable = SqlTestCompanion.repoUnderTestContainer(
+    override val repo = SqlTestCompanion.repoUnderTestContainer(
         initObjects,
-        randomUuid = { uuidNew.asString() },
+        randomUuid = { lockNew.asString() },
     )
 
     @AfterTest
@@ -22,14 +21,13 @@ class RepoAdSQLCreateTest : RepoAdCreateTest() {
 }
 
 class RepoAdSQLReadTest : RepoAdReadTest() {
-    override val repo: IRepoAd = SqlTestCompanion.repoUnderTestContainer(initObjects)
-
+    override val repo = SqlTestCompanion.repoUnderTestContainer(initObjects)
     @AfterTest
     fun tearDown() = repo.clear()
 }
 
 class RepoAdSQLUpdateTest : RepoAdUpdateTest() {
-    override val repo: IRepoAd = SqlTestCompanion.repoUnderTestContainer(
+    override val repo = SqlTestCompanion.repoUnderTestContainer(
         initObjects,
         randomUuid = { lockNew.asString() },
     )
@@ -41,15 +39,13 @@ class RepoAdSQLUpdateTest : RepoAdUpdateTest() {
 }
 
 class RepoAdSQLDeleteTest : RepoAdDeleteTest() {
-    override val repo: IRepoAd = SqlTestCompanion.repoUnderTestContainer(initObjects)
-
+    override val repo = SqlTestCompanion.repoUnderTestContainer(initObjects)
     @AfterTest
     fun tearDown() = repo.clear()
 }
 
 class RepoAdSQLSearchTest : RepoAdSearchTest() {
-    override val repo: IRepoAd = SqlTestCompanion.repoUnderTestContainer(initObjects)
-
+    override val repo = SqlTestCompanion.repoUnderTestContainer(initObjects)
     @AfterTest
     fun tearDown() = repo.clear()
 }
