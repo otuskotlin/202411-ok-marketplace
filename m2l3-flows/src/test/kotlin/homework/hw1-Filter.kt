@@ -57,7 +57,7 @@ class Exercise1Filter {
             Ad("4", "носок", AdVisibility.OWNER, BigDecimal("40.13"), AdType.DEMAND),
             Ad("5", "шнурки", AdVisibility.OWNER, BigDecimal("40.13"), AdType.DEMAND),
             Ad("6", "шнурки", AdVisibility.OWNER, BigDecimal("40.13"), AdType.SUPPLY),
-            Ad("7", "шнурки", AdVisibility.GROUP, BigDecimal("40.13"), AdType.DEMAND),
+            Ad("7", "шнурки", AdVisibility.GROUP, BigDecimal("9.99"), AdType.DEMAND),
         )
     }
 }
