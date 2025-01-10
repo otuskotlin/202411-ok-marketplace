@@ -1,4 +1,4 @@
-JDK=/usr/lib/jvm/java-17-openjdk-amd64
+JDK=/usr/lib/jvm/java-21-openjdk-amd64
 INC=-I../build/jniIncludes -I/usr/include -I/usr/include/x86_64-linux-gnu -I$(JDK)/include -I$(JDK)/include/linux
 
 CC = gcc
