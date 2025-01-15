@@ -169,6 +169,12 @@ tasks {
     shadowJar {
         isZip64 = true
     }
+    distTar {
+        duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    }
+    distZip {
+        duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    }
 
     // Если ошибка: "Entry application.yaml is a duplicate but no duplicate handling strategy has been set."
     // Возникает из-за наличия файлов как в common, так и в jvm платформе
