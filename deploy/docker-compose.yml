@@ -8,8 +8,7 @@
 # Адреса:
 # Приложение доступно по http://localhost:8080 (envoy прокси)
 # Панели мониторинга http://localhost:5601 (opensearch dashboards, kibana)
-# Управление пользователями http://localhost:8081 (keycloak)
-# Управление пользователями http://localhost:8081 (keycloak)
+# Управление пользователями http://localhost:8080/admin (keycloak)
 
 services:
 
@@ -61,6 +60,15 @@ services:
     ports:
       - '9200:9200'
       - '9600:9600'
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "curl -ku admin:adm-Password0 https://localhost:9200/_cluster/health?pretty | grep status | grep -q '\\(green\\|yellow\\)'"
+        ]
+      interval: 5s
+      timeout: 5s
+      retries: 24
     ulimits:
       memlock:
         soft: -1
@@ -68,8 +76,8 @@ services:
       nofile:
         soft: 65536
         hard: 65536
-    volumes:
-      - opensearch-data:/usr/share/opensearch/data
+#    volumes:
+#      - opensearch-data:/usr/share/opensearch/data
 
   dashboards:
     image: opensearchproject/opensearch-dashboards:latest
@@ -81,7 +89,8 @@ services:
     environment:
       OPENSEARCH_HOSTS: '["https://opensearch:9200"]'
     depends_on:
-      - opensearch
+      opensearch:
+        condition: service_healthy
 
   envoy:
     image: envoyproxy/envoy:v1.29.0  # Use the official Envoy proxy image
@@ -95,33 +104,36 @@ services:
         condition: service_healthy
 
   keycloak:
-    image: quay.io/keycloak/keycloak:24.0.4
+    image: quay.io/keycloak/keycloak:26.1.0
     #    ports:
     #      - "8081:8080"
     volumes:
-      #      - ./keycloak:/tmp
       - ./volumes/keycloak/import:/opt/keycloak/data/import
     #      - ./keycloak/standalone.xml:/opt/jboss/keycloak/standalone/configuration/standalone.xml
     #      - ./keycloak/certs/keycloak.jks:/etc/x509/https/keystore  # Mount your Keycloak keystore
     environment:
       KEYCLOAK_USER: otus
       KEYCLOAK_PASSWORD: otus
-      KEYCLOAK_ADMIN: admin
-      KEYCLOAK_ADMIN_PASSWORD: admin
+      KC_BOOTSTRAP_ADMIN_USERNAME: admin
+      KC_BOOTSTRAP_ADMIN_PASSWORD: admin
       KEYCLOAK_IMPORT: "/tmp/realm-export.json"
       KC_HEALTH_ENABLED: "true"
-      KC_HOSTNAME_URL: "http://localhost:8080/"
     healthcheck:
-      test: [ "CMD-SHELL", "exec 3<>/dev/tcp/127.0.0.1/8080;echo -e \"GET /health/ready HTTP/1.1\r\nhost: http://localhost\r\nConnection: close\r\n\r\n\" >&3;grep \"HTTP/1.1 200 OK\" <&3"]
+      test: [ "CMD-SHELL", "exec 3<>/dev/tcp/127.0.0.1/9000;echo -e 'HEAD /health/ready HTTP/1.1\r\nHost: localhost:9000\r\nConnection: close\r\n\r\n' >&3;cat <&3"]
       interval: 10s
       timeout: 5s
       retries: 15
     command:
       - start-dev
-      - --hostname-port=8081
       - --import-realm
-      - --proxy-headers=forwarded
-      - --hostname-strict=false
+      - --hostname-strict
+      - "false"
+      - --hostname
+      - "http://localhost:8080/"
+      - --proxy-headers
+      - forwarded
+      - --hostname-backchannel-dynamic
+      - "true"
 
 volumes:
   opensearch-data:
