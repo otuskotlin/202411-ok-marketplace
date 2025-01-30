@@ -30,6 +30,8 @@ static_resources:
                         route: { cluster: app }
                       - match: { prefix: "/v2/ad/" }
                         route: { cluster: app }
+                      - match: { prefix: "/admin/" }
+                        route: { cluster: keycloak }
                       - match: { prefix: "/realms/" }
                         route: { cluster: keycloak }
                       - match: { prefix: "/resources/" }

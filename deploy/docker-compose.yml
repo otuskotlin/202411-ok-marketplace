@@ -33,6 +33,8 @@ services:
         tag: app.logs
 
   fluent-bit:
+#    Logstash: 2GB RAM 400MB Docker
+#    fluent-bit: 30MB Docker 30MB RAM
     container_name: fluent-bit
     image: fluent/fluent-bit
     ports:
