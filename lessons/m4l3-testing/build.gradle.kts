@@ -31,7 +31,6 @@ kotlin {
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutinesVersion")
 
                 implementation("io.kotest:kotest-framework-engine:$kotestVersion")
-//                implementation("io.kotest:kotest-framework-datatest:$kotestVersion")
                 implementation("io.kotest:kotest-assertions-core:$kotestVersion")
                 implementation("io.kotest:kotest-property:$kotestVersion")
             }
@@ -57,6 +56,10 @@ kotlin {
 }
 
 tasks {
+//    Обязательно для Junit5 и Kotest !!!!!
+//    withType<Test>().configureEach {
+//        useJUnitPlatform {}
+//    }
     withType<Test>().configureEach {
         useJUnitPlatform {
 //            includeTags.add("sampling")

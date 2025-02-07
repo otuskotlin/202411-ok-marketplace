@@ -13,17 +13,11 @@ dependencies {
 
     testImplementation(libs.bundles.kotest)
 
-//    implementation("com.rabbitmq:amqp-client:$rabbitVersion")
-//    implementation("org.apache.kafka:kafka-clients:$kafkaVersion")
-
     testImplementation(libs.testcontainers.core)
     testImplementation(libs.coroutines.core)
 
     testImplementation(libs.ktor.client.core)
     testImplementation(libs.ktor.client.okhttp)
-//    testImplementation("io.ktor:ktor-client-core:$ktorVersion")
-//    testImplementation("io.ktor:ktor-client-okhttp:$ktorVersion")
-//    testImplementation("io.ktor:ktor-client-okhttp-jvm:$ktorVersion")
 }
 
 var severity: String = "MINOR"
