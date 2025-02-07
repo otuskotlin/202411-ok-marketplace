@@ -4,6 +4,8 @@
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/**/build/
 
+**/*.hprof
+
 /.idea/
 /.gigaide/
 /kotlin-js-store/

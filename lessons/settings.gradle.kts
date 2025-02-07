@@ -1,7 +1,10 @@
 pluginManagement {
     plugins {
         val kotlinVersion: String by settings
+        val kotestVersion: String by settings
         kotlin("jvm") version kotlinVersion
+        kotlin("multiplatform") version kotlinVersion
+        id("io.kotest.multiplatform") version kotestVersion
     }
 }
 
@@ -21,3 +24,16 @@ include("m2l4-kmp")
 include("m2l5-1-interop")
 include("m2l5-2-jni")
 include("m2l6-gradle")
+include("m4l3-testing")
+
+include(":m2l6-gradle:sub1:ssub1", ":m2l6-gradle:sub1:ssub2")
+
+include(":m2l6-gradle-sub2")
+project(":m2l6-gradle-sub2").apply {
+    projectDir = file("m2l6-gradle/sub2")
+    name = "m2l6-custom-sub2"
+}
+
+// Включает вот такую конструкцию
+//implementation(projects.m2l6Gradle.sub1.ssub1)
+enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
