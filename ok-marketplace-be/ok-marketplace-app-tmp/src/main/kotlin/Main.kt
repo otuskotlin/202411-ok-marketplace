@@ -5,14 +5,17 @@ import kotlinx.datetime.Clock
 import ru.otus.otuskotlin.marketplace.api.log1.mapper.toLog
 import ru.otus.otuskotlin.marketplace.common.MkplContext
 import ru.otus.otuskotlin.marketplace.common.models.*
+import ru.otus.otuskotlin.marketplace.logging.common.IMpLogWrapper
 import ru.otus.otuskotlin.marketplace.logging.common.LogLevel
 import ru.otus.otuskotlin.marketplace.logging.common.MpLoggerProvider
 import ru.otus.otuskotlin.marketplace.logging.jvm.mpLoggerLogback
+import kotlin.reflect.KClass
 
 
+private val clazz: KClass<*> = ::main::class
 suspend fun main() {
     val provider = MpLoggerProvider { mpLoggerLogback(it) }
-    val logger = provider.logger("app-tmp")
+    val logger: IMpLogWrapper = provider.logger(clazz.simpleName ?: "(unknown)")
         while (true) {
             val ctx = MkplContext(
                 command = MkplCommand.CREATE,

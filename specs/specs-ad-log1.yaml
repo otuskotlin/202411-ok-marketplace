@@ -23,6 +23,12 @@ components:
           type: string
         ad:
           $ref: '#/components/schemas/MkplLogModel'
+#        comments:
+#          $ref: '#/components/schemas/MkplLogModel'
+#        files:
+#          $ref: '#/components/schemas/MkplLogModel'
+#        images:
+#          $ref: '#/components/schemas/MkplLogModel'
         errors:
           type: array
           items:
