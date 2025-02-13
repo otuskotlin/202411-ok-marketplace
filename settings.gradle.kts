@@ -10,7 +10,8 @@ plugins {
 }
 rootProject.name = "ok-marketplace-202411"
 
-includeBuild("lessons")
+//includeBuild("lessons")
 includeBuild("ok-marketplace-be")
+includeBuild("ok-marketplace-libs")
 
 includeBuild("ok-marketplace-tests")
