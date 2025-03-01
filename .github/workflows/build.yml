@@ -23,7 +23,7 @@ on:
 jobs:
   # This workflow contains a single job called "build"
   build:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     #    runs-on: macos-latest
     steps:
       - uses: actions/checkout@v3
@@ -40,5 +40,5 @@ jobs:
       - name: Run Tests
         uses: gradle/gradle-build-action@v2
         with:
-          gradle-version: 8.6
+          gradle-version: 8.12.1
           arguments: check -i
