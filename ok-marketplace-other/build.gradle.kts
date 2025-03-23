@@ -17,20 +17,11 @@ subprojects {
     version = rootProject.version
 }
 
-ext {
-    val specDir = layout.projectDirectory.dir("../specs")
-    set("spec-v1", specDir.file("specs-ad-v1.yaml").toString())
-    set("spec-v2", specDir.file("specs-ad-v2.yaml").toString())
-}
-
 tasks {
-    arrayOf("build", "clean", "check").forEach {tsk ->
+    arrayOf("buildImages").forEach {tsk ->
         create(tsk) {
             group = "build"
             dependsOn(subprojects.map {  it.getTasksByName(tsk,false)})
         }
-    }
-    create("e2eTests") {
-        dependsOn(project(":ok-marketplace-e2e-be").tasks.getByName("check"))
     }
 }
