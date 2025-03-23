@@ -18,7 +18,7 @@ subprojects {
 }
 
 tasks {
-    arrayOf("buildImages").forEach {tsk ->
+    arrayOf("buildImages", "clean").forEach {tsk ->
         create(tsk) {
             group = "build"
             dependsOn(subprojects.map {  it.getTasksByName(tsk,false)})

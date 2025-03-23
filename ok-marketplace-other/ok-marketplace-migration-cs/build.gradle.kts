@@ -52,6 +52,10 @@ tasks {
         dependsOn(docker)
     }
 
+    val clean by creating {
+        dependsOn(dockerClean)
+    }
+
     val cassandraUp by creating {
         group = "db"
         doFirst {
