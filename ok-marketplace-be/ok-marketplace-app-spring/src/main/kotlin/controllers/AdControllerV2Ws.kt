@@ -1,5 +1,6 @@
 package ru.otus.otuskotlin.markeplace.app.spring.controllers
 
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.merge
@@ -26,12 +27,14 @@ import ru.otus.otuskotlin.marketplace.common.models.MkplCommand
 class AdControllerV2Ws(private val appSettings: MkplAppSettings) : WebSocketHandler {
     private val sessions = appSettings.corSettings.wsSessions
 
-    override fun handle(session: WebSocketSession): Mono<Void> = runBlocking {
+    override fun handle(session: WebSocketSession): Mono<Void> {
         val mkplSess = SpringWsSessionV2(session)
         sessions.add(mkplSess)
-        val messageObj = process("ws-v2-init") {
-            command = MkplCommand.INIT
-            wsSession = mkplSess
+        val messageObj = flow {
+            emit(process("ws-v2-init") {
+                command = MkplCommand.INIT
+                wsSession = mkplSess
+            })
         }
 
         val messages = session.receive().asFlow()
@@ -43,7 +46,7 @@ class AdControllerV2Ws(private val appSettings: MkplAppSettings) : WebSocketHand
                 }
             }
 
-        val output = merge(flowOf(messageObj), messages)
+        val output = merge(messageObj, messages)
             .onCompletion {
                 process("ws-v2-finish") {
                     command = MkplCommand.FINISH
@@ -53,7 +56,7 @@ class AdControllerV2Ws(private val appSettings: MkplAppSettings) : WebSocketHand
             }
             .map { session.textMessage(apiV2ResponseSerialize(it)) }
             .asFlux()
-        session.send(output)
+        return session.send(output)
     }
 
     private suspend fun process(logId: String, function: MkplContext.() -> Unit) = appSettings.controllerHelper(
