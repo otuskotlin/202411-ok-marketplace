@@ -11,3 +11,4 @@
 /kotlin-js-store/
 
 *.hprof
+**/*.log

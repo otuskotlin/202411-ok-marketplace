@@ -114,3 +114,4 @@ ktor = { id = "io.ktor.plugin", version.ref = "ktor" }
 # Docker
 muschko-remote = { id = "com.bmuschko.docker-remote-api", version.ref = "muschko" }
 muschko-java = { id = "com.bmuschko.docker-java-application", version.ref = "muschko" }
+palantir-docker = "com.palantir.docker:0.36.0"
