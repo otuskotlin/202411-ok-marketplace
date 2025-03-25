@@ -57,15 +57,6 @@ tasks {
         dependsOn(dockerClean)
     }
 
-    val pgUp by creating {
-        group = "db"
-        doFirst {
-            println("Starting PostgreSQL...")
-            pgContainer.start()
-            println("PostgreSQL started at port: ${pgContainer.getServicePort("psql", 5432)}")
-        }
-    }
-
     val pgDn by creating {
         group = "db"
         doFirst {
@@ -73,5 +64,14 @@ tasks {
             pgContainer.stop()
             println("PostgreSQL stopped")
         }
+    }
+    val pgUp by creating {
+        group = "db"
+        doFirst {
+            println("Starting PostgreSQL...")
+            pgContainer.start()
+            println("PostgreSQL started at port: ${pgContainer.getServicePort("psql", 5432)}")
+        }
+        finalizedBy(pgDn)
     }
 }

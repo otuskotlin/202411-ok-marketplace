@@ -56,15 +56,6 @@ tasks {
         dependsOn(dockerClean)
     }
 
-    val cassandraUp by creating {
-        group = "db"
-        doFirst {
-            println("Starting Cassandra...")
-            csContainer.start()
-            println("Cassandra started at port: ${csContainer.getServicePort("cassandra", 9042)}")
-        }
-    }
-
     val cassandraDn by creating {
         group = "db"
         doFirst {
@@ -73,4 +64,14 @@ tasks {
             println("Cassandra stopped")
         }
     }
+    val cassandraUp by creating {
+        group = "db"
+        doFirst {
+            println("Starting Cassandra...")
+            csContainer.start()
+            println("Cassandra started at port: ${csContainer.getServicePort("cassandra", 9042)}")
+        }
+        finalizedBy(cassandraDn)
+    }
+
 }

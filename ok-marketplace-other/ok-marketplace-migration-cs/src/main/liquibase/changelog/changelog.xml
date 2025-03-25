@@ -4,15 +4,6 @@
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
                    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd">
 
-<!--<preConditions onFail="HALT">-->
-<!--    <sqlCheck expectedResult="1">-->
-<!--        CREATE KEYSPACE IF NOT EXISTS marketplace WITH REPLICATION = {-->
-<!--            'class': 'SimpleStrategy',-->
-<!--            'replication_factor': '1'-->
-<!--        }-->
-<!--    </sqlCheck>-->
-<!--</preConditions>-->
-
 <changeSet id="001" author="otus-lecturer">
     <sqlFile path="scripts/001-create-ads.cql"
              relativeToChangelogFile="true"
