@@ -16,7 +16,7 @@ application {
 ktor {
     configureNativeImage(project)
     docker {
-        localImageName.set(project.name)
+        localImageName.set("${project.name}-jvm")
         imageTag.set(project.version.toString())
         jreVersion.set(JavaVersion.VERSION_21)
     }
@@ -180,50 +180,6 @@ tasks {
                 from(linuxX64ProcessResources.destinationDir)
                 into(this@dockerPrepare.destinationDir)
             }
-//            files(nativeFileX64)
         }
     }
-//
-//    val dockerDockerfileX64 by creating(Dockerfile.X64::class) {
-//        dependsOn(linkReleaseExecutableLinuxX64)
-//        dependsOn(linuxX64ProcessResources)
-//        group = "docker"
-//        from(Dockerfile.X64.From("ubuntu:22.04").withPlatform("linux/amd64"))
-//        doFirst {
-//            copy {
-//                from(nativeFileX64)
-//                from(linuxX64ProcessResources.destinationDir)
-//                into("${this@creating.destDir.get()}")
-//            }
-//        }
-//        runCommand("apt-get update && apt-get install -y libpq5 && rm -rf /var/lib/apt/lists/*")
-//        copyFile(nativeFileX64.name, "/app/")
-//        copyFile("application.yaml", "/app/")
-//        exposePort(8080)
-//        workingDir("/app")
-//        entryPoint("/app/${nativeFileX64.name}", "-config=./application.yaml")
-//    }
-//    val registryUser: String? = System.getenv("CONTAINER_REGISTRY_USER")
-//    val registryPass: String? = System.getenv("CONTAINER_REGISTRY_PASS")
-//    val registryHost: String? = System.getenv("CONTAINER_REGISTRY_HOST")
-//    val registryPref: String? = System.getenv("CONTAINER_REGISTRY_PREF")
-//    val imageName = registryPref?.let { "$it/${project.name}" } ?: project.name
-//
-//    val dockerBuildX64Image by creating(DockerBuildImage::class) {
-//        group = "docker"
-//        dependsOn(dockerDockerfileX64)
-//        images.add("$imageName-x64:${rootProject.version}")
-//        images.add("$imageName-x64:latest")
-//        platform.set("linux/amd64")
-//    }
-//    val dockerPushX64Image by creating(DockerPushImage::class) {
-//        group = "docker"
-//        dependsOn(dockerBuildX64Image)
-//        images.set(dockerBuildX64Image.images)
-//        registryCredentials {
-//            username.set(registryUser)
-//            password.set(registryPass)
-//            url.set("https://$registryHost/v1/")
-//        }
-//    }
 }

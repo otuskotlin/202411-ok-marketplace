@@ -2,7 +2,8 @@ package ru.otus.otuskotlin.marketplace.e2e.be.fixture.docker
 
 import co.touchlab.kermit.Logger
 import io.ktor.http.*
-import org.testcontainers.containers.DockerComposeContainer
+import org.testcontainers.containers.ComposeContainer
+import org.testcontainers.containers.wait.strategy.Wait
 import ru.otus.otuskotlin.marketplace.blackbox.fixture.docker.DockerCompose
 import java.io.File
 
@@ -15,26 +16,34 @@ private val log = Logger
  */
 abstract class AbstractDockerCompose(
     private val apps: List<AppInfo>,
-    private val dockerComposeNames: List<String>
+    private val dockerComposeNames: List<String>,
 ) : DockerCompose {
-    constructor(service: String, port: Int, vararg dockerComposeName: String)
-        : this(listOf(AppInfo(service, port)), dockerComposeName.toList())
+    constructor(
+        service: String,
+        port: Int,
+        vararg dockerComposeName: String
+    ): this(
+        listOf(AppInfo(service, port)),
+        dockerComposeName.toList()
+    )
     private fun getComposeFiles(): List<File> = dockerComposeNames.map {
         val file = File("docker-compose/$it")
         if (!file.exists()) throw IllegalArgumentException("file $it not found!")
         file
     }
 
-    private val compose =
-        DockerComposeContainer(getComposeFiles()).apply {
-//            withOptions("--compatibility")
+    private val compose by lazy {
+        ComposeContainer(getComposeFiles()).apply {
             apps.forEach { (service, port) ->
                 withExposedService(
                     service,
                     port,
                 )
+                waitingFor(service, Wait.forHealthcheck())
+//                containerWait()
             }
         }
+    }
 
     override fun start() {
         kotlin.runCatching { compose.start() }.onFailure {

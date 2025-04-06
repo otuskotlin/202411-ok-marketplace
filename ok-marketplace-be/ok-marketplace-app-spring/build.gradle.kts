@@ -69,3 +69,16 @@ tasks.withType<Test> {
     useJUnitPlatform()
     environment("MKPLADS_DB", "test_db")
 }
+
+tasks.bootBuildImage {
+    builder = "paketobuildpacks/builder-jammy-base:latest"
+    environment.set(mapOf("BP_HEALTH_CHECKER_ENABLED" to "true"))
+    buildpacks.set(
+        listOf(
+            "gcr.io/paketo-buildpacks/adoptium",
+            "urn:cnb:builder:paketo-buildpacks/java",
+            "gcr.io/paketo-buildpacks/health-checker:latest"
+        )
+    )
+
+}

@@ -10,3 +10,5 @@ services:
 #      - ./__files:/home/wiremock/__files
       - ./volumes/wm-marketplace/mappings:/home/wiremock/mappings
 #    entrypoint: ["/docker-entrypoint.sh", "--global-response-templating", "--disable-gzip", "--verbose"]
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/"]

@@ -8,7 +8,7 @@ management:
   endpoints:
     web:
       exposure:
-        include: info,env
+        include: info,env,health
 
 spring:
   jackson:

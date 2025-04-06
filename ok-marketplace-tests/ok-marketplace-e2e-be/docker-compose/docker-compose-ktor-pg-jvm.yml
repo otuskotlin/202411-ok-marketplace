@@ -3,7 +3,7 @@
 version: '3.9'
 services:
   app-ktor:
-    image: ok-marketplace-app-ktor:0.0.1
+    image: ok-marketplace-app-ktor-jvm:0.0.1
     ports:
       - "8080:8080"
     environment:
@@ -18,13 +18,14 @@ services:
         condition: service_healthy
       liquibase:
         condition: service_completed_successfully
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/"]
+
 
   psql:
     image: postgres
-#    volumes:
-#      - postgres_data:/var/lib/postgresql/data
-#    ports:
-#      - "5432:5432"
+    #    ports:
+    #      - "5432:5432"
     environment:
       POSTGRES_PASSWORD: "marketplace-pass"
       POSTGRES_USER: "postgres"
@@ -36,13 +37,15 @@ services:
       retries: 5
 
   liquibase:
-    image: liquibase/liquibase
-    volumes:
-      - ./volumes/liquibase-psql:/liquibase/changelog
+    image: "ok-marketplace-migration-pg:0.1.0"
+    environment:
+      LIQUIBASE_URL:
+      LIQUIBASE_COMMAND_URL: jdbc:postgresql://psql:5432/marketplace_ads
+      LIQUIBASE_COMMAND_USERNAME: postgres
+      LIQUIBASE_COMMAND_PASSWORD: "marketplace-pass"
+      LIQUIBASE_LIQUIBASE_SCHEMA_NAME: public
+    #      tableName: marketplace_ads
+
     depends_on:
       psql:
         condition: service_healthy
-    command: ["--defaults-file=/liquibase/changelog/liquibase.properties", "--search-path=/liquibase/changelog", "--url=jdbc:postgresql://psql:5432/marketplace_ads", "update"]
-
-#volumes:
-#  postgres_data:
