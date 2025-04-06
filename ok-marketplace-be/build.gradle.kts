@@ -1,8 +1,8 @@
 plugins {
     alias(libs.plugins.kotlin.jvm) apply false
     alias(libs.plugins.kotlin.multiplatform) apply false
-    alias(libs.plugins.muschko.remote) apply false
-    alias(libs.plugins.muschko.java) apply false
+//    alias(libs.plugins.muschko.remote) apply false
+//    alias(libs.plugins.muschko.java) apply false
 }
 
 group = "ru.otus.otuskotlin.marketplace"
@@ -36,6 +36,6 @@ tasks {
     create("buildImages") {
         dependsOn(project("ok-marketplace-app-spring").tasks.getByName("bootBuildImage"))
         dependsOn(project("ok-marketplace-app-ktor").tasks.getByName("publishImageToLocalRegistry"))
-        dependsOn(project("ok-marketplace-app-ktor").tasks.getByName("dockerBuildX64Image"))
+        dependsOn(project("ok-marketplace-app-ktor").tasks.getByName("docker"))
     }
 }

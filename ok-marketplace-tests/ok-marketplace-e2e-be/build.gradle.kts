@@ -26,7 +26,7 @@ tasks {
     withType<Test>().configureEach {
         useJUnitPlatform()
 //        dependsOn(gradle.includedBuild(":ok-marketplace-app-spring").task("dockerBuildImage"))
-//        dependsOn(gradle.includedBuild(":ok-marketplace-app-ktor").task("publishImageToLocalRegistry"))
+//        dependsOn(gradle.includedBuild(":ok-marketplace-be").task(":ok-marketplace-app-ktor:publishImageToLocalRegistry"))
 //        dependsOn(gradle.includedBuild(":ok-marketplace-app-rabbit").task("dockerBuildImage"))
 //        dependsOn(gradle.includedBuild(":ok-marketplace-app-kafka").task("dockerBuildImage"))
     }

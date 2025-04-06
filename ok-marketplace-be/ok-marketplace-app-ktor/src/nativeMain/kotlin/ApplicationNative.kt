@@ -7,7 +7,7 @@ import io.ktor.server.engine.*
 
 fun main() {
     embeddedServer(CIO, environment = applicationEngineEnvironment {
-        val conf = YamlConfigLoader().load("./application.yaml")
+        val conf = YamlConfigLoader().load("application.yaml")
             ?: throw RuntimeException("Cannot read application.yaml")
         println(conf)
         config = conf
