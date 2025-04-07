@@ -35,6 +35,7 @@ private fun MkplError.toLog() = ErrorLogModel(
     field = field.takeIf { it.isNotBlank() },
     code = code.takeIf { it.isNotBlank() },
     level = level.name,
+    exception = exception?.let{ "${it.message}\n${it.stackTraceToString()}"}
 )
 
 private fun MkplAd.toLog() = AdLog(

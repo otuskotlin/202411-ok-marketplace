@@ -78,6 +78,8 @@ components:
           type: string
         level:
           type: string
+        exception:
+          type: string
 
     AdLog:
       title: Модель лога для объявления

@@ -16,7 +16,7 @@ ktor:
 #    - "http://0.0.0.0:8080/v1"
 #    - "http://192.168.0.182:8080/v1"
 
-  logger: logback
+  logger: "$MKPLADS_LOGGER:logback"
 #  # Логирование типа socket требует установки в fluent-bit.conf
 #  # [INPUT]
 #  # Name    TCP # Вот здесь нужно поменять!
@@ -51,3 +51,9 @@ marketplace:
       port: "$MKPLADS_PORT:5432"
       user: "$MKPLADS_USER:postgres"
       password: "$MKPLADS_PASS:marketplace-pass"
+    cassandra:
+      keyspace: "$MKPLADS_KEYSPACE:marketplace-ads"
+      host: "$MKPLADS_HOST:localhost"
+      port: "$MKPLADS_PORT:9042"
+      user: "$MKPLADS_USER:cassandra"
+      pass: "$MKPLADS_PASS:cassandra"

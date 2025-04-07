@@ -10,7 +10,7 @@ application {
 
 docker {
     javaApplication {
-        baseImage.set("openjdk:17.0.2-slim")
+        baseImage.set("openjdk:${libs.versions.jvm.compiler.get()}-slim")
     }
 }
 
