@@ -3,6 +3,7 @@ package ru.otus.otuskotlin.marketplace.e2e.be.fixture.docker
 import co.touchlab.kermit.Logger
 import io.ktor.http.*
 import org.testcontainers.containers.ComposeContainer
+import org.testcontainers.containers.output.Slf4jLogConsumer
 import org.testcontainers.containers.wait.strategy.Wait
 import ru.otus.otuskotlin.marketplace.blackbox.fixture.docker.DockerCompose
 import java.io.File
@@ -26,6 +27,8 @@ abstract class AbstractDockerCompose(
         listOf(AppInfo(service, port)),
         dockerComposeName.toList()
     )
+    private val LOGGER = org.slf4j.LoggerFactory.getLogger(ComposeContainer::class.java)
+    private val logConsumer = Slf4jLogConsumer(LOGGER)
     private fun getComposeFiles(): List<File> = dockerComposeNames.map {
         val file = File("docker-compose/$it")
         if (!file.exists()) throw IllegalArgumentException("file $it not found!")
@@ -39,8 +42,8 @@ abstract class AbstractDockerCompose(
                     service,
                     port,
                 )
+                withLogConsumer(service, logConsumer)
                 waitingFor(service, Wait.forHealthcheck())
-//                containerWait()
             }
         }
     }
