@@ -4,7 +4,10 @@ import ru.otus.otuskotlin.marketplace.common.models.*
 import ru.otus.otuskotlin.marketplace.common.repo.DbAdRequest
 import ru.otus.otuskotlin.marketplace.common.repo.DbAdResponseOk
 import ru.otus.otuskotlin.marketplace.repo.common.IRepoAdInitializable
-import kotlin.test.*
+import kotlin.test.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertIs
+import kotlin.test.assertNotEquals
 
 
 abstract class RepoAdCreateTest {

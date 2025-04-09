@@ -14,13 +14,9 @@
         </encoder>
     </appender>
 
-    <!--    <if condition='!property("LOGS_FB_HOSTS").equals("LOGS_FB_HOSTS_IS_UNDEFINED")-->
-    <!--                        &amp;&amp; !property("LOGS_FB_HOSTS").isEmpty()'>-->
-    <!--        <then>-->
-
-<!--    <if condition='!property("LOGS_FB_HOSTS").equals("LOGS_FB_HOSTS_IS_UNDEFINED")-->
-<!--                                &amp;&amp; !property("LOGS_FB_HOSTS").isEmpty()'>-->
-<!--        <then>-->
+    <if condition='!property("LOGS_FB_HOSTS").equals("LOGS_FB_HOSTS_IS_UNDEFINED")
+                        &amp;&amp; !property("LOGS_FB_HOSTS").isEmpty()'>
+        <then>
             <appender name="fluentd" class="ch.qos.logback.more.appenders.DataFluentAppender">
                 <tag>app.logs</tag>
                 <label>normal</label>
@@ -55,8 +51,8 @@
                     </providers>
                 </encoder>
             </appender>
-<!--        </then>-->
-<!--    </if>-->
+        </then>
+    </if>
 
     <!--    &lt;!&ndash; For ELK-Stack: Kafka log's host &ndash;&gt;-->
     <!--    <property name="LOGS_KAFKA_HOSTS" value="${BOOTSTRAP_SERVERS:-localhost:9094}"/>-->
