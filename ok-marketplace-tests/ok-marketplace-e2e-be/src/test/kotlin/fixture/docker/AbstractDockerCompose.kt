@@ -7,6 +7,7 @@ import org.testcontainers.containers.output.Slf4jLogConsumer
 import org.testcontainers.containers.wait.strategy.Wait
 import ru.otus.otuskotlin.marketplace.blackbox.fixture.docker.DockerCompose
 import java.io.File
+import java.time.Duration
 
 private val log = Logger
 
@@ -38,11 +39,9 @@ abstract class AbstractDockerCompose(
     private val compose by lazy {
         ComposeContainer(getComposeFiles()).apply {
             apps.forEach { (service, port) ->
-                withExposedService(
-                    service,
-                    port,
-                )
+                withExposedService(service, port)
                 withLogConsumer(service, logConsumer)
+                withStartupTimeout(Duration.ofSeconds(300))
                 waitingFor(service, Wait.forHealthcheck())
             }
         }
