@@ -9,6 +9,9 @@ CREATE TABLE IF NOT EXISTS marketplace_ads (
     lock text
 );
 
+--- При использовании SASI индекса типа StandardAnalyzer происходит токенизация текста по пробелам.
+--- Оператор LIKE в этом случае должен быть НЕ LIKE '%<токен>%' а LIKE '<токен>%'
+
 CREATE CUSTOM INDEX IF NOT EXISTS ON marketplace_ads (title)
   USING 'org.apache.cassandra.index.sasi.SASIIndex'
   WITH OPTIONS = {

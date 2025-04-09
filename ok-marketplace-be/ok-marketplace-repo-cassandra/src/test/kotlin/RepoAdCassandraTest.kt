@@ -69,11 +69,6 @@ class CassandraTest {
 
     @Ignore
     companion object {
-//        class TestCasandraContainer : CassandraContainer<TestCasandraContainer>("cassandra:3.11.2")
-
-//        private val container by lazy {
-//            TestCasandraContainer().withStartupTimeout(Duration.ofSeconds(300L))
-//        }
         private const val CS_SERVICE = "cassandra"
         private const val CS_PORT = 9042
         private const val MG_SERVICE = "liquibase"
@@ -82,11 +77,7 @@ class CassandraTest {
         private val container: ComposeContainer by lazy {
             val resDc = this::class.java.classLoader.getResource("docker-compose-cs.yml")
                 ?: throw Exception("No resource found")
-//            val resCy = this::class.java.classLoader.getResource("cassandra.yaml")
-//                ?: throw Exception("No resource found")
             val fileDc = File(resDc.toURI())
-//            val fileCy = File(resCy.toURI())
-//            println("fileCy=${fileCy}")
             //  val logConsumer = Slf4jLogConsumer(LOGGER)
             ComposeContainer(
                 fileDc,

@@ -52,20 +52,7 @@ class RepoAdCassandra(
 
     private val mapper by lazy { CassandraMapper.builder(session).build() }
 
-//    private fun createSchema(keyspace: String) {
-//        session.execute(
-//            SchemaBuilder
-//                .createKeyspace(keyspace)
-//                .ifNotExists()
-//                .withSimpleStrategy(1)
-//                .build()
-//        )
-//        session.execute(AdCassandraDTO.table(keyspace, AdCassandraDTO.TABLE_NAME))
-//        session.execute(AdCassandraDTO.titleIndex(keyspace, AdCassandraDTO.TABLE_NAME))
-//    }
-
     private val dao by lazy {
-//        createSchema(keyspaceName)
         mapper.adDao(keyspaceName, AdCassandraDTO.TABLE_NAME).apply {
             runBlocking {
                 initObjects.map { model ->

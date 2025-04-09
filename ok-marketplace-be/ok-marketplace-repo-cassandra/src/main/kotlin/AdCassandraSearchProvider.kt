@@ -21,9 +21,12 @@ class AdCassandraSearchProvider(
         var select = entityHelper.selectStart().allowFiltering()
 
         if (filter.titleFilter.isNotBlank()) {
+            // Внимание! При использовании LIKE необходимо использовать SASI индексы.
+            // При использовании SASI индекса типа StandardAnalyzer происходит токенизация текста по пробелам.
+            // Оператор LIKE в этом случае должен быть НЕ LIKE '%<токен>%' а LIKE '<токен>%'
             select = select
                 .whereColumn(AdCassandraDTO.COLUMN_TITLE)
-                .like(QueryBuilder.literal("%${filter.titleFilter}%"))
+                .like(QueryBuilder.literal("${filter.titleFilter}%"))
         }
         if (filter.ownerId != MkplUserId.NONE) {
             select = select
