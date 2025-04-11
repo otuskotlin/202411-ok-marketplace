@@ -4,6 +4,7 @@ import ru.otus.otuskotlin.marketplace.common.models.MkplAd
 import ru.otus.otuskotlin.marketplace.common.models.MkplDealSide
 import ru.otus.otuskotlin.marketplace.common.models.MkplUserId
 import ru.otus.otuskotlin.marketplace.common.repo.*
+import ru.otus.otuskotlin.marketplace.repo.common.AdRepoInitialized
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertIs
@@ -11,7 +12,7 @@ import kotlin.test.fail
 
 
 abstract class RepoAdSearchTest {
-    abstract val repo: IRepoAd
+    abstract val repo: AdRepoInitialized
 
     protected open val initializedObjects: List<MkplAd> = initObjects
 

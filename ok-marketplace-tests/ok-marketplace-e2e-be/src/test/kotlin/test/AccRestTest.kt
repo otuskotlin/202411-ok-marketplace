@@ -32,3 +32,4 @@ class AccRestSpringPgTest : AccRestTestBaseFull(SpringDockerCompose, debug = Tes
 class AccRestKtorPgJvmTest : AccRestTestBaseFull(KtorJvmPGDockerCompose, debug = TestDebug.PROD)
 class AccRestKtorPgLinuxTest : AccRestTestBaseShort(KtorLinuxPGDockerCompose, debug = TestDebug.PROD)
 class AccRestKtorCsJvmTest : AccRestTestBaseFull(KtorJvmCSDockerCompose, debug = TestDebug.PROD)
+class AccRestKtorGrJvmTest : AccRestTestBaseFull(KtorJvmGRDockerCompose, debug = TestDebug.PROD)

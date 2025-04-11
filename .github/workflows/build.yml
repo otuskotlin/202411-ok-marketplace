@@ -31,6 +31,15 @@ jobs:
           submodules: recursive
           token: ${{ secrets.PAT_TOKEN }}
 
+      - name: Restore cached Primes
+        id: cache-primes-restore
+        uses: actions/cache/restore@v4
+        with:
+          path: |
+            .gradle
+            .kotlin
+          key: ${{ runner.os }}-primes
+
       - name: Set up JDK 21
         uses: actions/setup-java@v3
         with:
@@ -52,3 +61,12 @@ jobs:
         with:
           gradle-version: 8.10.1
           arguments: check -i
+
+      - name: Save Primes
+        id: cache-primes-save
+        uses: actions/cache/save@v4
+        with:
+          path: |
+            .gradle
+            .kotlin
+          key: ${{ steps.cache-primes-restore.outputs.cache-primary-key }}

@@ -17,7 +17,7 @@ suspend fun Client.createAd(ad: AdCreateObject = someCreateAd, debug: AdDebug = 
         description shouldBe ad.description
         adType shouldBe ad.adType
         visibility shouldBe ad.visibility
-        id.toString() shouldMatch Regex("^[\\d\\w_-]+\$")
+        id.toString() shouldMatch Regex("^[\\d\\w_\\#:-]+\$")
         lock.toString() shouldMatch Regex("^[\\d\\w_-]+\$")
     }
     it.ad!!
