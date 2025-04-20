@@ -12,7 +12,7 @@ kotlin {
                 implementation(libs.kotlinx.serialization.core)
                 implementation(libs.kotlinx.serialization.json)
                 implementation(libs.coroutines.core)
-                api("ru.otus.otuskotlin.marketplace.libs:ok-marketplace-lib-logging-common")
+                api(libs.mkpl.state.common)
             }
         }
         commonTest {
