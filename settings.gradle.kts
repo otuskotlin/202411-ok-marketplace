@@ -13,6 +13,7 @@ rootProject.name = "ok-marketplace-202411"
 //includeBuild("lessons")
 includeBuild("ok-marketplace-other")
 includeBuild("ok-marketplace-be")
+includeBuild("ok-marketplace-states")
 includeBuild("ok-marketplace-libs")
 
 includeBuild("ok-marketplace-tests")
