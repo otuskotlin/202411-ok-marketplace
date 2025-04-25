@@ -131,6 +131,7 @@ abstract class V1AdRepoBaseTest {
         val responseObj = response.body<AdSearchResponse>()
         assertEquals(200, response.status.value)
         assertNotEquals(0, responseObj.ads?.size)
+        println("SEARCH!!!: ${responseObj.ads}")
         assertEquals(uuidOld, responseObj.ads?.first()?.id)
     }
 

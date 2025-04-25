@@ -41,7 +41,7 @@ abstract class AbstractDockerCompose(
             apps.forEach { (service, port) ->
                 withExposedService(service, port)
                 withLogConsumer(service, logConsumer)
-                withStartupTimeout(Duration.ofSeconds(300))
+                withStartupTimeout(Duration.ofSeconds(600))
                 waitingFor(service, Wait.forHealthcheck())
             }
         }

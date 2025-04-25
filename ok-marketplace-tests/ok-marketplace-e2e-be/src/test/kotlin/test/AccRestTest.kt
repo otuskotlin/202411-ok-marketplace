@@ -4,6 +4,7 @@ import io.kotest.core.annotation.Ignored
 import ru.otus.otuskotlin.marketplace.blackbox.fixture.docker.DockerCompose
 import ru.otus.otuskotlin.marketplace.e2e.be.docker.*
 import ru.otus.otuskotlin.marketplace.e2e.be.fixture.BaseFunSpec
+import ru.otus.otuskotlin.marketplace.e2e.be.fixture.client.RestAuthClient
 import ru.otus.otuskotlin.marketplace.e2e.be.fixture.client.RestClient
 import ru.otus.otuskotlin.marketplace.e2e.be.test.action.v1.toV1
 import ru.otus.otuskotlin.marketplace.e2e.be.test.action.v2.toV2
@@ -33,3 +34,10 @@ class AccRestKtorPgJvmTest : AccRestTestBaseFull(KtorJvmPGDockerCompose, debug =
 class AccRestKtorPgLinuxTest : AccRestTestBaseShort(KtorLinuxPGDockerCompose, debug = TestDebug.PROD)
 class AccRestKtorCsJvmTest : AccRestTestBaseFull(KtorJvmCSDockerCompose, debug = TestDebug.PROD)
 class AccRestKtorGrJvmTest : AccRestTestBaseFull(KtorJvmGRDockerCompose, debug = TestDebug.PROD)
+
+class AccRestKtorKeycloakJvmTest : BaseFunSpec(KtorJvmKeycloakDockerCompose, {
+    val restClient = RestAuthClient(KtorJvmKeycloakDockerCompose)
+    val debug = TestDebug.TEST
+//    testApiV1(restClient, prefix = "rest ", debug = debug.toV1())
+    testApiV2(restClient, prefix = "rest ", debug = debug.toV2())
+})
