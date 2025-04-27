@@ -24,7 +24,7 @@ class CassandraTest {
     class RepoAdCassandraCreateTest : RepoAdCreateTest() {
         override val repo = AdRepoInitialized(
             initObjects = initObjects,
-            repo = repository(uuidNew.asString())
+            repo = repository(lockNew.asString())
         )
 
         @AfterTest

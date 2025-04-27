@@ -1,5 +1,6 @@
 plugins {
     id("build-jvm")
+    alias(libs.plugins.kotlinx.serialization)
 }
 
 dependencies {
@@ -18,6 +19,8 @@ dependencies {
 
     testImplementation(libs.ktor.client.core)
     testImplementation(libs.ktor.client.okhttp)
+    testImplementation(libs.kotlinx.serialization.core)
+    testImplementation(libs.kotlinx.serialization.json)
 }
 
 var severity: String = "MINOR"
