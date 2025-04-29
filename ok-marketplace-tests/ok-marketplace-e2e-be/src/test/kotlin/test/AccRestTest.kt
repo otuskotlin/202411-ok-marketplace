@@ -29,16 +29,8 @@ open class AccRestTestBaseShort(dockerCompose: DockerCompose, debug: TestDebug =
 
 class AccRestWiremockTest : AccRestTestBaseFull(WiremockDockerCompose)
 
-// В связи с добавлением авторизации, тесты без KeyCloak больше не работают
-//class AccRestSpringPgTest : AccRestTestBaseFull(SpringDockerCompose, debug = TestDebug.PROD)
-//class AccRestKtorPgJvmTest : AccRestTestBaseFull(KtorJvmPGDockerCompose, debug = TestDebug.PROD)
-//class AccRestKtorPgLinuxTest : AccRestTestBaseShort(KtorLinuxPGDockerCompose, debug = TestDebug.PROD)
-//class AccRestKtorCsJvmTest : AccRestTestBaseFull(KtorJvmCSDockerCompose, debug = TestDebug.PROD)
-//class AccRestKtorGrJvmTest : AccRestTestBaseFull(KtorJvmGRDockerCompose, debug = TestDebug.PROD)
-
-class AccRestKtorKeycloakJvmTest : BaseFunSpec(KtorJvmKeycloakDockerCompose, {
-    val restClient = RestAuthClient(KtorJvmKeycloakDockerCompose)
+class AccRestKtorFullTest : BaseFunSpec(KtorJvmFullDockerCompose, {
+    val restClient = RestAuthClient(KtorJvmFullDockerCompose)
     val debug = TestDebug.TEST
-//    testApiV1(restClient, prefix = "rest ", debug = debug.toV1())
     testApiV2(restClient, prefix = "rest ", debug = debug.toV2())
 })

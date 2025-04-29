@@ -1,0 +1,91 @@
+services:
+  app:
+    image: ok-marketplace-app-ktor-x64:0.0.1
+    environment:
+      DB_TYPE_PROD: "psql"
+      MKPLADS_HOST: "psql"
+      MKPLADS_PORT: 5432
+      MKPLADS_DB: "marketplace_ads"
+      MKPLADS_USER: "postgres"
+      MKPLADS_PASS: "marketplace-pass"
+    depends_on:
+      psql:
+        condition: service_healthy
+      liquibase:
+        condition: service_completed_successfully
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/"]
+
+  envoy:
+    image: envoyproxy/envoy:v1.29.0  # Use the official Envoy proxy image
+    volumes:
+      - ./volumes/envoy/envoy.yaml:/etc/envoy/envoy.yaml  # Mount your Envoy configuration file
+    #      - ./envoy/certs:/etc/envoy/certs  # Mount your TLS certificates
+    ports:
+      - "8080:8080"
+    healthcheck:
+      test: [ "CMD-SHELL", "timeout 10s bash -c ':> /dev/tcp/127.0.0.1/8080' || exit 1"]
+    depends_on:
+      keycloak:
+        condition: service_healthy
+      app:
+        condition: service_healthy
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:24.0.4
+#    ports:
+#      - "8081:8080"
+    volumes:
+      #      - ./keycloak:/tmp
+      - ./volumes/keycloak/import:/opt/keycloak/data/import
+    #      - ./keycloak/standalone.xml:/opt/jboss/keycloak/standalone/configuration/standalone.xml
+    #      - ./keycloak/certs/keycloak.jks:/etc/x509/https/keystore  # Mount your Keycloak keystore
+    environment:
+      KEYCLOAK_USER: otus
+      KEYCLOAK_PASSWORD: otus
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+      KEYCLOAK_IMPORT: "/tmp/realm-export.json"
+      KC_HEALTH_ENABLED: "true"
+      KC_HOSTNAME_URL: "http://localhost:8080/"
+    healthcheck:
+      test: [ "CMD-SHELL", "exec 3<>/dev/tcp/127.0.0.1/8080;echo -e \"GET /health/ready HTTP/1.1\r\nhost: http://localhost\r\nConnection: close\r\n\r\n\" >&3;grep \"HTTP/1.1 200 OK\" <&3"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    command:
+      - start-dev
+      #      - --features admin-fine-grained-authz
+      - --hostname-port=8081
+      - --import-realm
+#      - --proxy edge
+      - --proxy-headers=forwarded
+      - --hostname-strict=false
+
+  psql:
+    image: postgres
+    #    ports:
+    #      - "5432:5432"
+    environment:
+      POSTGRES_PASSWORD: "marketplace-pass"
+      POSTGRES_USER: "postgres"
+      POSTGRES_DB: "marketplace_ads"
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  liquibase:
+    image: "ok-marketplace-migration-pg:0.1.0"
+    environment:
+      LIQUIBASE_URL:
+      LIQUIBASE_COMMAND_URL: jdbc:postgresql://psql:5432/marketplace_ads
+      LIQUIBASE_COMMAND_USERNAME: postgres
+      LIQUIBASE_COMMAND_PASSWORD: "marketplace-pass"
+      LIQUIBASE_LIQUIBASE_SCHEMA_NAME: public
+    #      tableName: marketplace_ads
+
+    depends_on:
+      psql:
+        condition: service_healthy
