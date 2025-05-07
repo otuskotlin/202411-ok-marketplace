@@ -46,34 +46,6 @@ class Inferrer(
         s
     }
 
-    /*
-        Расширение для разбора результатов инференса
-        separates tokens into arrays according to class ids
-
-        below is the relation from class id to the label
-        "id2label": {
-        "0": "B-LOC",
-        "1": "B-MISC",
-        "2": "B-ORG",
-        "3": "I-LOC",
-        "4": "I-MISC",
-        "5": "I-ORG",
-        "6": "I-PER",
-        "7": "O"
-    * */
-    private fun InferringResult.post(
-        clazz: Int,
-        token: String,
-    ) = when (clazz) {
-        6 -> persons += token
-        2, 5 -> organizations += token
-        3, 0 -> locations += token
-        1, 4 -> misc += token
-        else -> Unit
-    }
-
-    private fun findMaxIndex(arr: FloatArray): Int = arr.indices.maxBy { arr[it] }
-
     /**
      * Инференс - главный метод вычисления результатов машинного анализа
      */
@@ -128,6 +100,34 @@ class Inferrer(
     } catch (e: OrtException) {
         e.printStackTrace()
     }
+
+    /*
+        Расширение для разбора результатов инференса
+        separates tokens into arrays according to class ids
+
+        below is the relation from class id to the label
+        "id2label": {
+        "0": "B-LOC",
+        "1": "B-MISC",
+        "2": "B-ORG",
+        "3": "I-LOC",
+        "4": "I-MISC",
+        "5": "I-ORG",
+        "6": "I-PER",
+        "7": "O"
+    * */
+    private fun InferringResult.post(
+        clazz: Int,
+        token: String,
+    ) = when (clazz) {
+        6 -> persons += token
+        2, 5 -> organizations += token
+        3, 0 -> locations += token
+        1, 4 -> misc += token
+        else -> Unit
+    }
+
+    private fun findMaxIndex(arr: FloatArray): Int = arr.indices.maxBy { arr[it] }
 
     /**
      * Вывод результатов в консоль
